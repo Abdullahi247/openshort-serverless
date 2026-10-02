@@ -2,6 +2,7 @@
 .git
 .gitignore
 .DS_Store
+.github
 **/.venv
 **/node_modules
 **/__pycache__
@@ -16,6 +17,11 @@
 **/*.log
 app/dashboard
 app/.git
+app/.github
+app/docs
+app/*.gif
+app/demo*.mp4
+app/churchil_*
 README.md
 scripts
 docs

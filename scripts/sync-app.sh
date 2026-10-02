@@ -30,12 +30,19 @@ rsync -a --delete \
   --exclude '.git' \
   --exclude '.venv' \
   --exclude 'node_modules' \
-  --exclude 'dashboard/node_modules' \
+  --exclude 'dashboard' \
+  --exclude 'dashboard/**' \
   --exclude 'remotion/node_modules' \
   --exclude 'render-service/node_modules' \
   --exclude '__pycache__' \
   --exclude '.DS_Store' \
   --exclude 'PLACE_SOURCE_HERE.md' \
+  --exclude '.github' \
+  --exclude 'docs' \
+  --exclude '*.gif' \
+  --exclude 'demo-*.mp4' \
+  --exclude 'demo*.mp4' \
+  --exclude 'churchil_*' \
   "$SRC"/ "$DEST"/
 
 # Dashboard is not served on RunPod; drop it to shrink the image.
@@ -43,6 +50,9 @@ if [[ -d "$DEST/dashboard" ]]; then
   echo "==> Removing dashboard/ from image context (host frontend elsewhere)"
   rm -rf "$DEST/dashboard"
 fi
+
+# Drop leftover large demos if any slipped through
+find "$DEST" -maxdepth 1 \( -name '*.gif' -o -name 'demo*.mp4' -o -name 'churchil_*' \) -delete 2>/dev/null || true
 
 echo "==> Done. Key paths:"
 ls -la "$DEST" | head -30

@@ -46,6 +46,23 @@ chmod +x scripts/*.sh docker/entrypoint.sh
 
 Must target **linux/amd64** (RunPod). Building on Apple Silicon already passes `--platform linux/amd64`.
 
+### Build with GitHub Actions (recommended if local/Mac is slow)
+
+1. Push this repo to GitHub.
+2. In the repo: **Settings → Secrets and variables → Actions**, add:
+   - `DOCKERHUB_USERNAME` — e.g. `yusufabdullah`
+   - `DOCKERHUB_TOKEN` — Docker Hub **access token** (Read & Write)
+3. Open **Actions → Build and push Runpod image → Run workflow**
+4. Optional: set image tag (default `v1`)
+
+The workflow clones [mutonby/openshorts](https://github.com/mutonby/openshorts), syncs into `app/`, builds for `linux/amd64`, and pushes:
+
+```text
+DOCKERHUB_USERNAME/openshorts-runpod:v1
+```
+
+First run can take a long time (torch + CUDA wheels). Subsequent runs reuse GitHub/Docker layer caches when possible.
+
 ## 2. Deploy on RunPod
 
 1. [Serverless](https://www.runpod.io/console/serverless) → **New Endpoint**
