@@ -66,7 +66,9 @@ echo "==> Starting Remotion renderer..."
 cd "$APP_DIR/render-service"
 # RunPod sets PORT for the public LB (nginx). Remotion also reads PORT,
 # so force its internal listen port separately.
-PORT="$RENDER_PORT" npm start &
+# Start node directly: `npm start` forks node and npm exits, which made
+# `wait -n` think a worker died and shut the whole container down (502).
+PORT="$RENDER_PORT" node dist/server.js &
 RENDER_PID=$!
 
 # --------------------------------------------------
@@ -100,7 +102,7 @@ echo "    /health*       -> FastAPI"
 echo "    /render/*      -> Remotion render-service"
 echo "    /*             -> FastAPI"
 
-# Keep container alive while children run
-wait -n "$BACKEND_PID" "$RENDER_PID"
+# Block until a worker exits (must not use wait -n on an npm wrapper PID)
+wait "$BACKEND_PID" "$RENDER_PID"
 echo "ERROR: a worker process exited"
 exit 1
