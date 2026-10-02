@@ -64,7 +64,9 @@ BACKEND_PID=$!
 # --------------------------------------------------
 echo "==> Starting Remotion renderer..."
 cd "$APP_DIR/render-service"
-npm start &
+# RunPod sets PORT for the public LB (nginx). Remotion also reads PORT,
+# so force its internal listen port separately.
+PORT="$RENDER_PORT" npm start &
 RENDER_PID=$!
 
 # --------------------------------------------------
