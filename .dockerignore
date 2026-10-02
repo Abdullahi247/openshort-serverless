@@ -1,0 +1,23 @@
+# Keep build context small — only ship what the worker needs.
+.git
+.gitignore
+.DS_Store
+**/.venv
+**/node_modules
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.mypy_cache
+**/dist
+**/build
+**/.next
+**/.turbo
+**/coverage
+**/*.log
+app/dashboard
+app/.git
+README.md
+scripts
+docs
+*.md
+!app/PLACE_SOURCE_HERE.md

@@ -1,0 +1,13 @@
+.DS_Store
+.venv/
+**/node_modules/
+**/__pycache__/
+**/*.pyc
+*.log
+.env
+.env.*
+!.env.example
+
+# Synced OpenShorts source (keep only the placeholder tracked)
+app/**
+!app/PLACE_SOURCE_HERE.md
